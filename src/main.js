@@ -55,7 +55,7 @@ async function loadImages(beforeShowImagesCallback) {
       iziToast.info({
         icon: '',
         position: 'topRight',
-        message: "You've reached the end of search results.",
+        message: `You've reached the end of search results ${totalHits}.`,
       });
     }
   } catch (error) {

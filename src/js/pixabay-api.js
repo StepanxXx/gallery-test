@@ -5,7 +5,6 @@ import { showLoader, hideLoader } from './render-functions';
 
 const API_KEY = '56117998-dbfb9ab566fb37bd87035667f';
 
-// TODO: add pagination and infinite scroll
 export default async function getImagesByQuery(query, page = 1, perPage = 40) {
   showLoader();
   const queryParam = new URLSearchParams({
