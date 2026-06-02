@@ -5,7 +5,8 @@ import { showLoader, hideLoader } from './render-functions';
 
 const API_KEY = '56117998-dbfb9ab566fb37bd87035667f';
 
-export default function getImagesByQuery(query) {
+// TODO: add pagination and infinite scroll
+export default async function getImagesByQuery(query, page = 1, perPage = 40) {
   showLoader();
   const queryParam = new URLSearchParams({
     key: API_KEY,
@@ -13,37 +14,35 @@ export default function getImagesByQuery(query) {
     image_type: 'photo',
     orientation: 'horizontal',
     safesearch: 'true',
+    page: page,
+    per_page: perPage,
   });
   const requestUrl = 'https://pixabay.com/api/?' + queryParam.toString();
 
   const minExecutionTime = 2000; // Minimum time in milliseconds
   const startTime = performance.now();
 
-  return axios
-    .get(requestUrl)
-    .then(response => {
-      if (response.status === 200) {
-        return new Promise(resolve => {
-          const data = response.data;
-          const endTime = performance.now();
-          const elapsedTime = endTime - startTime;
-          const remainingTime = Math.max(0, minExecutionTime - elapsedTime);
-          setTimeout(() => {
-            resolve(data);
-          }, remainingTime);
-        });
-      } else {
-        throw new Error(`Error fetching images: ${response.statusText}`);
-      }
-    })
-    .then(data => {
-      return data;
-    })
-    .catch(error => {
-      console.error('Error fetching images:', error);
-      throw error;
-    })
-    .finally(() => {
-      hideLoader();
+  try {
+    const response = await axios.get(requestUrl);
+
+    if (response.status !== 200) {
+      throw new Error(`Error fetching images: ${response.statusText}`);
+    }
+
+    const data = response.data;
+    const endTime = performance.now();
+    const elapsedTime = endTime - startTime;
+    const remainingTime = Math.max(0, minExecutionTime - elapsedTime);
+
+    await new Promise(resolve => {
+      setTimeout(resolve, remainingTime);
     });
+
+    return data;
+  } catch (error) {
+    console.error('Error fetching images:', error);
+    throw error;
+  } finally {
+    hideLoader();
+  }
 }

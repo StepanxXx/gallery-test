@@ -12,6 +12,8 @@ const galleryContainer = document.querySelector('ul.gallery');
 
 const loader = document.querySelector('.loader-container');
 
+const gallery = document.querySelector('.gallery');
+
 function createGallery(images) {
   const fragment = images.reduce(
     createGalleryItem,
@@ -19,12 +21,12 @@ function createGallery(images) {
   );
   galleryContainer.appendChild(fragment);
   lightbox.refresh();
+  gallery.classList.add('active');
 }
 
 function createGalleryItem(fragment, hit) {
   const listItem = document.createElement('li');
   listItem.classList.add('gallery-item');
-  listItem.classList.add('gallery-item--entering');
   const link = document.createElement('a');
   link.classList.add('gallery-link');
   link.href = hit.largeImageURL;
@@ -44,6 +46,8 @@ function createGalleryImg(hit) {
   image.alt = hit.tags;
   image.width = 358;
   image.height = 198;
+  image.loading = 'lazy';
+  image.decoding = 'async';
   return image;
 }
 
@@ -66,6 +70,7 @@ function createGalleryImgInfo(hit) {
 
 function clearGallery() {
   galleryContainer.innerHTML = '';
+  gallery.classList.remove('active');
 }
 
 function showLoader() {
