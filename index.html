@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/gallery-test/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>GoIT advanced js homework 01</title>
+    <script type="module" crossorigin src="/gallery-test/index.js"></script>
+    <link rel="modulepreload" crossorigin href="/gallery-test/assets/vendor-DcHCnVjq.js">
+    <link rel="stylesheet" crossorigin href="/gallery-test/assets/vendor-DumFYO8Z.css">
+    <link rel="stylesheet" crossorigin href="/gallery-test/assets/index-DkQeXmpE.css">
+  </head>
+  <body>
+    <header class="header">
+  <div class="container">
+    <nav class="nav">
+      <ul class="nav-list">
+        <li class="nav-item">
+          <a class="nav-link active" href="./index.html">Home</a>
+        </li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+
+    <main>
+      <div class="container">
+        <h1 class="main-title visually-hidden">Home</h1>
+        <form class="form">
+          <label>
+            <input
+              type="text"
+              name="search-text"
+              placeholder="Search images..."
+              required
+            />
+          </label>
+          <button type="submit">Search</button>
+        </form>
+        <div class="search-results">
+          <ul class="gallery"></ul>
+          <div class="loader-container">
+            <span class="loader"></span>
+          </div>
+        </div>
+      </div>
+    </main>
+  </body>
+</html>
