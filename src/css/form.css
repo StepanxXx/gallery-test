@@ -1,0 +1,47 @@
+.form {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  margin-bottom: 30px;
+}
+.form input {
+  border: 1px solid #808080;
+  border-radius: 4px;
+  width: 272px;
+  padding: 7px 15px;
+
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 1.5;
+  letter-spacing: 0.04em;
+  color: #2e2f42;
+}
+
+.form input:hover {
+  border-color: #000;
+}
+
+.form input:focus,
+.form input:focus-visible,
+.form input:focus-within,
+.form input:active {
+  border-color: #4e75ff;
+  outline: none;
+}
+
+.form button {
+  border-radius: 8px;
+  padding: 8px 16px;
+  border: none;
+  cursor: pointer;
+  background-color: #6c8cff;
+
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 1.5;
+  letter-spacing: 0.04em;
+  color: #fff;
+}
+.form button:hover {
+  background-color: #6c8cff;
+}
