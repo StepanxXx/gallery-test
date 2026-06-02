@@ -13,13 +13,13 @@ export default async function getImagesByQuery(query, page = 1, perPage = 40) {
     q: query,
     image_type: 'photo',
     orientation: 'horizontal',
-    safesearch: 'true',
+    safesearch: 'false',
     page: page,
     per_page: perPage,
   });
   const requestUrl = 'https://pixabay.com/api/?' + queryParam.toString();
 
-  const minExecutionTime = 2000; // Minimum time in milliseconds
+  const minExecutionTime = 500; // Minimum time in milliseconds
   const startTime = performance.now();
 
   try {
