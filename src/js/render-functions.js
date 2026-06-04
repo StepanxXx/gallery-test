@@ -203,11 +203,14 @@ galleryContainer.addEventListener(
     event.stopPropagation();
 
     try {
+      showLoader();
       await ensureImageSource(link);
       lightbox.refresh();
       lightbox.open(link);
     } catch (error) {
       console.error('Error loading lightbox image:', error);
+    } finally {
+      hideLoader();
     }
   },
   true
