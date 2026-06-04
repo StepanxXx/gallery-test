@@ -5,6 +5,15 @@ import { showLoader, hideLoader } from './render-functions';
 
 const API_KEY = '56117998-dbfb9ab566fb37bd87035667f';
 
+async function waitForMinimumExecutionTime(startTime, minExecutionTime) {
+  const elapsedTime = performance.now() - startTime;
+  const remainingTime = Math.max(0, minExecutionTime - elapsedTime);
+
+  await new Promise(resolve => {
+    setTimeout(resolve, remainingTime);
+  });
+}
+
 export default async function getImagesByQuery(query, page = 1, perPage = 40) {
   showLoader();
   const queryParam = new URLSearchParams({
@@ -29,13 +38,7 @@ export default async function getImagesByQuery(query, page = 1, perPage = 40) {
     }
 
     const data = response.data;
-    const endTime = performance.now();
-    const elapsedTime = endTime - startTime;
-    const remainingTime = Math.max(0, minExecutionTime - elapsedTime);
-
-    await new Promise(resolve => {
-      setTimeout(resolve, remainingTime);
-    });
+    await waitForMinimumExecutionTime(startTime, minExecutionTime);
 
     return data;
   } catch (error) {
