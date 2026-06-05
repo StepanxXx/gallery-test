@@ -7,6 +7,7 @@ import getImagesByQuery from './js/pixabay-api';
 import { createGallery, clearGallery } from './js/render-functions';
 
 const searchForm = document.querySelector('form.form');
+const scrollToTopButton = document.querySelector('.scroll-to-top');
 const PER_PAGE = 40;
 const SCROLL_OFFSET = 300;
 
@@ -74,12 +75,21 @@ function handleScroll() {
   const scrollPosition = window.innerHeight + window.scrollY;
   const pageHeight = document.documentElement.scrollHeight;
 
+  scrollToTopButton?.classList.toggle('is-visible', window.scrollY > 300);
+
   if (pageHeight - scrollPosition <= SCROLL_OFFSET) {
     loadImages();
   }
 }
 
 window.addEventListener('scroll', handleScroll);
+
+scrollToTopButton?.addEventListener('click', () => {
+  window.scrollTo({
+    top: 0,
+    behavior: 'smooth',
+  });
+});
 
 searchForm.addEventListener('submit', event => {
   event.preventDefault();
