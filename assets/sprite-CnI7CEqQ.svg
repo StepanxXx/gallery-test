@@ -12,5 +12,8 @@
       <!-- TODO: position icon in the center -->
       <path fill="rgb(255, 255, 255, 0.5)" d="M24 8L8 24h8v16h16V24h8L24 8z"/>
     </symbol>
+    <symbol id="checkmark" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+      <polyline points="20 6 9 17 4 12" />
+    </symbol>
   </defs>
 </svg>
