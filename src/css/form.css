@@ -1,47 +1,73 @@
+/* 1. Базове налаштування форми (Flexbox) */
 .form {
+  margin: 0 auto;
   display: flex;
-  gap: 8px;
-  justify-content: center;
-  margin-bottom: 30px;
-}
-.form input {
-  border: 1px solid #808080;
-  border-radius: 4px;
-  width: 272px;
-  padding: 7px 15px;
-
-  font-weight: 400;
-  font-size: 16px;
-  line-height: 1.5;
-  letter-spacing: 0.04em;
-  color: #2e2f42;
+  align-items: stretch; /* Робить input та button однакової висоти */
+  justify-content: center; /* Центрує форму горизонтально */
+  gap: 8px; /* Відстань між полем вводу та кнопкою */
+  max-width: 500px;
+  width: 100%;
+  margin-bottom: 10px;
 }
 
-.form input:hover {
-  border-color: #000;
+/* Клас для візуального приховування label (доступно лише для скрінрідерів) */
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
 }
 
-.form input:focus,
-.form input:focus-visible,
-.form input:focus-within,
-.form input:active {
-  border-color: #4e75ff;
-  outline: none;
-}
-
-.form button {
-  border-radius: 8px;
+/* 2. Стилізація поля вводу */
+.form > input {
+  flex-grow: 1; /* Дозволяє полю вводу зайняти весь вільний простір */
+  min-height: 44px; /* Комфортний розмір цілі для мобільних екранів */
   padding: 8px 16px;
-  border: none;
-  cursor: pointer;
-  background-color: #6c8cff;
+  font-size: 16px; /* Запобігає автозумуванню в iOS Safari */
 
-  font-weight: 500;
-  font-size: 16px;
-  line-height: 1.5;
-  letter-spacing: 0.04em;
-  color: #fff;
+  /* Контрастна рамка (мінімум 3:1 відносно фону) */
+  border: 2px solid #333;
+  border-radius: 4px;
+  background-color: #fff;
+  transition: border-color 0.2s;
 }
-.form button:hover {
+
+/* 3. Стилізація кнопки праворуч */
+.form > button {
+  flex-shrink: 0; /* Забороняє кнопці стискатися */
+  min-height: 44px; /* Відповідає розміру поля вводу */
+  padding: 0 24px;
+  font-size: 16px;
+  font-weight: bold;
+  color: #fff;
+  background-color: #4e75ff;
+  border: 2px solid #4e75ff;
+  border-radius: 4px;
+  cursor: pointer;
+  transition:
+    background-color 0.2s,
+    border-color 0.2s;
+}
+
+/* 4. Стани при наведенні курсора */
+.form > button:hover {
   background-color: #6c8cff;
+  border-color: #6c8cff;
+}
+
+/* 5. Керування фокусом для навігації з клавіатури */
+.form > input:focus-visible,
+.form > button:focus-visible {
+  border-color: #4e75ff;
+}
+
+/* Підтримка режиму високого контрасту для кнопки */
+@media (forced-colors: active) {
+  .form > button {
+    border: 2px solid transparent;
+  }
 }

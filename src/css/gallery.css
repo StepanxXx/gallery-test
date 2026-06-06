@@ -1,13 +1,4 @@
 /* Gallery styles restored */
-.gallery-settings {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  font-size: 14px;
-  line-height: 1.5;
-  color: #2e2f42;
-}
-
 .gallery {
   list-style: none;
   display: grid;
@@ -34,7 +25,7 @@
     grid-auto-rows: 768px;
   }
 }
-/* Styles for Desktop devices */
+
 @media only screen and (min-width: 1200px) {
   .gallery {
     grid-template-columns: repeat(auto-fit, calc(1120px / 3));
@@ -100,6 +91,15 @@
   height: 100%;
   object-fit: cover;
   transition: transform 250ms ease;
+}
+
+@media only screen and (min-width: 1200px) {
+  .gallery-image {
+    object-fit: contain;
+  }
+  .gallery.gallery-square-items .gallery-image {
+    object-fit: cover;
+  }
 }
 
 .gallery-img-info {

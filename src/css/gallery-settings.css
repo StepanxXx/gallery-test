@@ -1,0 +1,99 @@
+.gallery-settings-container {
+  margin: 0 auto;
+  max-width: 500px;
+}
+
+/* Забезпечення мінімальної клікабельної зони 48x48 px для комфортного натискання [5] */
+.checkbox-label {
+  --base-bg-color: #4e75ff;
+  display: flex;
+  align-items: center;
+  min-height: 48px; 
+  cursor: pointer;
+  font-size: 16px;
+  margin-bottom: 8px;
+}
+
+/* Візуально приховуємо нативний інпут, але не видаляємо з DOM для роботи клавіатури */
+.checkbox-label input[type="checkbox"] {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+/* Кастомний квадрат чекбокса */
+.checkbox-custom {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 24px;
+  height: 24px;
+  border: 2px solid #333; /* Контрастна рамка */
+  border-radius: 4px;
+  margin-right: 12px;
+  background-color: transparent;
+  transition: all 0.3s ease-in-out;
+  
+  /* Прозора рамка для підтримки режиму високого контрасту */
+  outline: 2px solid transparent; 
+}
+
+/* Базові стилі для SVG-галочки */
+.checkbox-custom svg {
+  width: 16px;
+  height: 16px;
+  fill: none;
+  stroke: #fff; /* Білий колір галочки */
+  stroke-width: 3;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  
+  /* Початковий стан: прозора та зменшена */
+  opacity: 0;
+  transform: scale(0.5);
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s ease;
+}
+
+/* Реакція на наведення мишею */
+.checkbox-label:hover .checkbox-custom {
+  border-color: var(--base-bg-color);
+}
+
+/* Стан: Чекбокс обрано (:checked) */
+.checkbox-label input[type="checkbox"]:checked + .checkbox-custom {
+  background-color: var(--base-bg-color);
+  border-color: var(--base-bg-color);
+}
+
+/* Анімація: Поява галочки (збільшення і проявлення) при виборі */
+.checkbox-label input[type="checkbox"]:checked + .checkbox-custom svg {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* Стилізація фокуса при навігації з клавіатури (Tab) [6] */
+.checkbox-label input[type="checkbox"]:focus-visible + .checkbox-custom {
+  outline: 3px solid var(--base-bg-color);
+  outline-offset: 4px;
+}
+
+/* 
+ * Підтримка режиму високого контрасту (Forced Colors)
+ * Значення currentColor змушує SVG перейняти системний колір тексту [7].
+ */
+@media (forced-colors: active) {
+  .checkbox-custom svg {
+    stroke: currentColor;
+  }
+}
+
+/* 
+ * Вимкнення анімації для користувачів із чутливістю до руху на екрані [8, 9].
+ */
+@media (prefers-reduced-motion: reduce) {
+  .checkbox-custom,
+  .checkbox-custom svg {
+    transition: none !important;
+  }
+}
