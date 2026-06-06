@@ -41,11 +41,7 @@ class GalleryApp {
   init() {
     window.addEventListener('scroll', () => this.handleScroll());
 
-    // restore saved preference for showing image info
-    const savedShowInfo = localStorage.getItem('gallery-show-info');
-    if (savedShowInfo !== null && this.showInfoToggle) {
-      this.showInfoToggle.checked = savedShowInfo === 'true';
-    }
+    // No persisted preference for showing image info (no localStorage)
 
     this.galleryRenderer.setSquareGalleryItems(
       this.autoRowsToggle?.checked ?? true
@@ -174,11 +170,6 @@ class GalleryApp {
   handleShowInfoToggle(event) {
     const isChecked = event.target.checked;
     this.galleryRenderer.setImageInfoVisible(isChecked);
-    try {
-      localStorage.setItem('gallery-show-info', String(isChecked));
-    } catch (e) {
-      // ignore storage errors
-    }
   }
 }
 
