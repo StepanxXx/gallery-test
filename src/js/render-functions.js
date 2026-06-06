@@ -3,93 +3,117 @@
 import SimpleLightbox from 'simplelightbox';
 import 'simplelightbox/dist/simple-lightbox.min.css';
 
-let lightbox = new SimpleLightbox('.gallery a', {
-  captionsData: 'alt',
-  captionDelay: 1000,
-  preloading: false,
-});
+class GalleryRenderer {
+  constructor({
+    gallerySelector = 'ul.gallery',
+    galleryRootSelector = '.gallery',
+    loaderSelector = '.loader-container',
+    lightboxSelector = '.gallery a',
+  } = {}) {
+    this.galleryContainer = document.querySelector(gallerySelector);
+    this.galleryRoot = document.querySelector(galleryRootSelector);
+    this.loader = document.querySelector(loaderSelector);
+    this.lightbox = new SimpleLightbox(lightboxSelector, {
+      captionsData: 'alt',
+      captionDelay: 2000,
+      preloading: false,
+    });
+  }
 
-const galleryContainer = document.querySelector('ul.gallery');
+  setSquareGalleryItems(isEnabled) {
+    this.galleryRoot.classList.toggle('gallery-square-items', isEnabled);
+  }
 
-const loader = document.querySelector('.loader-container');
+  createGallery(images) {
+    const fragment = images.reduce(
+      (galleryFragment, hit) => this.createGalleryItem(galleryFragment, hit),
+      document.createDocumentFragment()
+    );
 
-const gallery = document.querySelector('.gallery');
+    this.galleryContainer.appendChild(fragment);
+    this.lightbox.refresh();
+    this.galleryRoot.classList.add('active');
+  }
 
-function createGallery(images) {
-  const fragment = images.reduce(
-    createGalleryItem,
-    document.createDocumentFragment()
-  );
-  galleryContainer.appendChild(fragment);
-  lightbox.refresh();
-  gallery.classList.add('active');
-}
+  createGalleryItem(fragment, hit) {
+    const listItem = document.createElement('li');
+    listItem.classList.add('gallery-item');
 
-function createGalleryItem(fragment, hit) {
-  const listItem = document.createElement('li');
-  listItem.classList.add('gallery-item');
-  const link = document.createElement('a');
-  link.classList.add('gallery-link');
-  const imageSource =
-    hit.imageURL ||
-    hit.fullHDURL ||
-    hit.largeImageURL ||
-    hit.webformatURL ||
-    hit.previewURL;
-  link.href = imageSource;
-  const image = createGalleryImg(hit);
-  link.appendChild(image);
-  const imgInfo = createGalleryImgInfo(hit);
-  link.appendChild(imgInfo);
-  listItem.appendChild(link);
-  fragment.appendChild(listItem);
-  return fragment;
-}
+    const link = document.createElement('a');
+    link.classList.add('gallery-link');
+    link.href = this.getImageSource(hit);
 
-function createGalleryImg(hit) {
-  const image = document.createElement('img');
-  image.classList.add('gallery-image');
-  image.src = hit.largeImageURL || hit.webformatURL || hit.previewURL;
-  image.alt = hit.tags;
-  image.width = 358;
-  image.height = 198;
-  image.loading = 'lazy';
-  image.decoding = 'async';
-  return image;
-}
+    const image = this.createGalleryImg(hit);
+    link.appendChild(image);
 
-function createGalleryImgInfo(hit) {
-  const imgInfo = document.createElement('dl');
-  imgInfo.classList.add('gallery-img-info');
-  const keys = ['likes', 'views', 'comments', 'downloads'];
-  keys.forEach(key => {
-    const dt = document.createElement('dt');
-    dt.classList.add('gallery-img-info-key');
-    dt.textContent = key;
-    const dd = document.createElement('dd');
-    dd.classList.add('gallery-img-info-value');
-    dd.textContent = hit[key];
-    imgInfo.appendChild(dt);
-    imgInfo.appendChild(dd);
-  });
-  return imgInfo;
-}
+    const imgInfo = this.createGalleryImgInfo(hit);
+    link.appendChild(imgInfo);
 
-function clearGallery() {
-  galleryContainer.innerHTML = '';
-  gallery.classList.remove('active');
-}
+    listItem.appendChild(link);
+    fragment.appendChild(listItem);
 
-function showLoader() {
-  if (loader) {
-    loader.classList.add('active');
+    return fragment;
+  }
+
+  getImageSource(hit) {
+    return (
+      hit.imageURL ||
+      hit.fullHDURL ||
+      hit.largeImageURL ||
+      hit.webformatURL ||
+      hit.previewURL
+    );
+  }
+
+  createGalleryImg(hit) {
+    const image = document.createElement('img');
+    image.classList.add('gallery-image');
+    image.src = hit.largeImageURL || hit.webformatURL || hit.previewURL;
+    image.alt = hit.tags;
+    image.width = 358;
+    image.height = 198;
+    image.loading = 'lazy';
+    image.decoding = 'async';
+    return image;
+  }
+
+  createGalleryImgInfo(hit) {
+    const keys = ['likes', 'views', 'comments', 'downloads'];
+
+    const imgInfo = keys.reduce((parent, key) => {
+      const dt = document.createElement('dt');
+      dt.classList.add('gallery-img-info-key');
+      dt.textContent = key;
+
+      const dd = document.createElement('dd');
+      dd.classList.add('gallery-img-info-value');
+      dd.textContent = hit[key];
+
+      parent.appendChild(dt);
+      parent.appendChild(dd);
+      return parent;
+    }, document.createElement('dl'));
+    imgInfo.classList.add('gallery-img-info');
+
+    return imgInfo;
+  }
+
+  clearGallery() {
+    this.galleryContainer.innerHTML = '';
+    this.galleryRoot.classList.remove('active');
+  }
+
+  showLoader() {
+    if (this.loader) {
+      this.loader.classList.add('active');
+    }
+  }
+
+  hideLoader() {
+    if (this.loader) {
+      this.loader.classList.remove('active');
+    }
   }
 }
 
-function hideLoader() {
-  if (loader) {
-    loader.classList.remove('active');
-  }
-}
-
-export { createGallery, clearGallery, showLoader, hideLoader };
+export default GalleryRenderer;

@@ -1,49 +1,66 @@
 'use strict';
 
 import axios from 'axios';
-import { showLoader, hideLoader } from './render-functions';
 
 const API_KEY = '56117998-dbfb9ab566fb37bd87035667f';
 
-async function waitForMinimumExecutionTime(startTime, minExecutionTime) {
-  const elapsedTime = performance.now() - startTime;
-  const remainingTime = Math.max(0, minExecutionTime - elapsedTime);
+class PixabayApiService {
+  constructor({
+    apiKey = API_KEY,
+    minExecutionTime = 500,
+    onRequestStart = () => {},
+    onRequestFinish = () => {},
+  } = {}) {
+    this.apiKey = apiKey;
+    this.minExecutionTime = minExecutionTime;
+    this.onRequestStart = onRequestStart;
+    this.onRequestFinish = onRequestFinish;
+  }
 
-  await new Promise(resolve => {
-    setTimeout(resolve, remainingTime);
-  });
-}
+  async getImagesByQuery(query, page = 1, perPage = 40) {
+    this.onRequestStart();
 
-export default async function getImagesByQuery(query, page = 1, perPage = 40) {
-  showLoader();
-  const queryParam = new URLSearchParams({
-    key: API_KEY,
-    q: query,
-    image_type: 'photo',
-    safesearch: 'false',
-    page: page,
-    per_page: perPage,
-  });
-  const requestUrl = 'https://pixabay.com/api/?' + queryParam.toString();
+    const requestUrl = this.buildRequestUrl(query, page, perPage);
+    const startTime = performance.now();
 
-  const minExecutionTime = 500; // Minimum time in milliseconds
-  const startTime = performance.now();
+    try {
+      const response = await axios.get(requestUrl);
 
-  try {
-    const response = await axios.get(requestUrl);
+      if (response.status !== 200) {
+        throw new Error(`Error fetching images: ${response.statusText}`);
+      }
 
-    if (response.status !== 200) {
-      throw new Error(`Error fetching images: ${response.statusText}`);
+      await this.waitForMinimumExecutionTime(startTime);
+      return response.data;
+    } catch (error) {
+      console.error('Error fetching images:', error);
+      throw error;
+    } finally {
+      this.onRequestFinish();
     }
+  }
 
-    const data = response.data;
-    await waitForMinimumExecutionTime(startTime, minExecutionTime);
+  buildRequestUrl(query, page, perPage) {
+    const queryParam = new URLSearchParams({
+      key: this.apiKey,
+      q: query,
+      image_type: 'photo',
+      safesearch: 'false',
+      page: page,
+      per_page: perPage,
+    });
 
-    return data;
-  } catch (error) {
-    console.error('Error fetching images:', error);
-    throw error;
-  } finally {
-    hideLoader();
+    return `https://pixabay.com/api/?${queryParam.toString()}`;
+  }
+
+  async waitForMinimumExecutionTime(startTime) {
+    const elapsedTime = performance.now() - startTime;
+    const remainingTime = Math.max(0, this.minExecutionTime - elapsedTime);
+
+    await new Promise(resolve => {
+      setTimeout(resolve, remainingTime);
+    });
   }
 }
+
+export default PixabayApiService;
