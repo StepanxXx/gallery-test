@@ -24,6 +24,7 @@ export default async function getImagesByQuery(query, page = 1, perPage = 40) {
     safesearch: 'false',
     page: page,
     per_page: perPage,
+    order: 'latest',
   });
   const requestUrl = 'https://pixabay.com/api/?' + queryParam.toString();
 
