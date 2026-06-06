@@ -20,11 +20,9 @@ export default async function getImagesByQuery(query, page = 1, perPage = 40) {
     key: API_KEY,
     q: query,
     image_type: 'photo',
-    orientation: 'horizontal',
     safesearch: 'false',
     page: page,
     per_page: perPage,
-    order: 'latest',
   });
   const requestUrl = 'https://pixabay.com/api/?' + queryParam.toString();
 
