@@ -24,6 +24,10 @@ class GalleryRenderer {
     this.galleryRoot.classList.toggle('gallery-square-items', isEnabled);
   }
 
+  setImageInfoVisible(isVisible) {
+    this.galleryRoot.classList.toggle('hide-info', !isVisible);
+  }
+
   createGallery(images) {
     const fragment = images.reduce(
       (galleryFragment, hit) => this.createGalleryItem(galleryFragment, hit),
@@ -82,11 +86,9 @@ class GalleryRenderer {
 
     const imgInfo = keys.reduce((parent, key) => {
       const dt = document.createElement('dt');
-      dt.classList.add('gallery-img-info-key');
       dt.textContent = key;
 
       const dd = document.createElement('dd');
-      dd.classList.add('gallery-img-info-value');
       dd.textContent = hit[key];
 
       parent.appendChild(dt);

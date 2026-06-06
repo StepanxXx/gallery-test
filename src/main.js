@@ -14,12 +14,14 @@ class GalleryApp {
     searchFormSelector = 'form.form',
     scrollToTopSelector = '.scroll-to-top',
     autoRowsToggleSelector = 'input[name="gallery-square-items"]',
+    showInfoToggleSelector = 'input[name="gallery-show-info"]',
     perPage = PER_PAGE,
     scrollOffset = SCROLL_OFFSET,
   } = {}) {
     this.searchForm = document.querySelector(searchFormSelector);
     this.scrollToTopButton = document.querySelector(scrollToTopSelector);
     this.autoRowsToggle = document.querySelector(autoRowsToggleSelector);
+    this.showInfoToggle = document.querySelector(showInfoToggleSelector);
     this.perPage = perPage;
     this.scrollOffset = scrollOffset;
 
@@ -39,8 +41,18 @@ class GalleryApp {
   init() {
     window.addEventListener('scroll', () => this.handleScroll());
 
+    // restore saved preference for showing image info
+    const savedShowInfo = localStorage.getItem('gallery-show-info');
+    if (savedShowInfo !== null && this.showInfoToggle) {
+      this.showInfoToggle.checked = savedShowInfo === 'true';
+    }
+
     this.galleryRenderer.setSquareGalleryItems(
       this.autoRowsToggle?.checked ?? true
+    );
+
+    this.galleryRenderer.setImageInfoVisible(
+      this.showInfoToggle?.checked ?? true
     );
 
     this.scrollToTopButton?.addEventListener('click', () => {
@@ -52,6 +64,10 @@ class GalleryApp {
 
     this.autoRowsToggle?.addEventListener('change', event => {
       this.handleSquareGalleryItemsToggle(event);
+    });
+
+    this.showInfoToggle?.addEventListener('change', event => {
+      this.handleShowInfoToggle(event);
     });
 
     this.searchForm?.addEventListener('submit', event =>
@@ -153,6 +169,16 @@ class GalleryApp {
 
   handleSquareGalleryItemsToggle(event) {
     this.galleryRenderer.setSquareGalleryItems(event.target.checked);
+  }
+
+  handleShowInfoToggle(event) {
+    const isChecked = event.target.checked;
+    this.galleryRenderer.setImageInfoVisible(isChecked);
+    try {
+      localStorage.setItem('gallery-show-info', String(isChecked));
+    } catch (e) {
+      // ignore storage errors
+    }
   }
 }
 

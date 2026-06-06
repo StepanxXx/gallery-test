@@ -131,3 +131,8 @@
   letter-spacing: 0.04em;
   color: #2e2f42;
 }
+
+/* When the gallery has the .hide-info class, hide the image info block */
+.gallery.hide-info .gallery-img-info {
+  display: none;
+}
