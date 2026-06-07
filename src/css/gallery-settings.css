@@ -1,6 +1,9 @@
 .gallery-settings-container {
   margin: 0 auto;
   max-width: 500px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 0 8px;
 }
 
 /* Забезпечення мінімальної клікабельної зони 48x48 px для комфортного натискання [5] */
