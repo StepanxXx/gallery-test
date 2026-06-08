@@ -6,7 +6,7 @@ import 'izitoast/dist/css/iziToast.min.css';
 import PixabayApiService from './js/pixabay-api';
 import GalleryRenderer from './js/render-functions';
 
-const PER_PAGE = 40;
+const PER_PAGE = 21;
 const SCROLL_OFFSET = 300;
 
 class GalleryApp {
