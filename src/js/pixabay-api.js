@@ -17,7 +17,7 @@ class PixabayApiService {
     this.onRequestFinish = onRequestFinish;
   }
 
-  async getImagesByQuery(query, page = 1, perPage = 40) {
+  async getImagesByQuery(query, page = 1, perPage = 21) {
     this.onRequestStart();
 
     const requestUrl = this.buildRequestUrl(query, page, perPage);
