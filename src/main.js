@@ -15,6 +15,7 @@ class GalleryApp {
     scrollToTopSelector = '.scroll-to-top',
     autoRowsToggleSelector = 'input[name="gallery-square-items"]',
     showInfoToggleSelector = 'input[name="gallery-show-info"]',
+    galleryEl = '.gallery',
     perPage = PER_PAGE,
     scrollOffset = SCROLL_OFFSET,
   } = {}) {
@@ -22,6 +23,7 @@ class GalleryApp {
     this.scrollToTopButton = document.querySelector(scrollToTopSelector);
     this.autoRowsToggle = document.querySelector(autoRowsToggleSelector);
     this.showInfoToggle = document.querySelector(showInfoToggleSelector);
+    this.galleryEl = document.querySelector(galleryEl);
     this.perPage = perPage;
     this.scrollOffset = scrollOffset;
 
@@ -133,7 +135,7 @@ class GalleryApp {
     }
   }
 
-  handleScroll() {
+  async handleScroll() {
     const scrollPosition = window.innerHeight + window.scrollY;
     const pageHeight = document.documentElement.scrollHeight;
 
@@ -143,7 +145,9 @@ class GalleryApp {
     );
 
     if (pageHeight - scrollPosition <= this.scrollOffset) {
-      void this.loadImages();
+      const lastImage = this.galleryEl?.lastElementChild;
+      await this.loadImages();
+      this.scrollToNewImages(lastImage);
     }
   }
 
@@ -170,6 +174,12 @@ class GalleryApp {
   handleShowInfoToggle(event) {
     const isChecked = event.target.checked;
     this.galleryRenderer.setImageInfoVisible(isChecked);
+  }
+
+  scrollToNewImages(lastImageElementBeforeNewImages) {
+    lastImageElementBeforeNewImages?.
+      nextElementSibling?.
+      scrollIntoView({ behavior: 'smooth', block: 'start', });
   }
 }
 
