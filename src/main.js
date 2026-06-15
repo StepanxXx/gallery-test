@@ -5,6 +5,7 @@ import 'izitoast/dist/css/iziToast.min.css';
 
 import PixabayApiService from './js/pixabay-api';
 import GalleryRenderer from './js/render-functions';
+import throttle from './js/throttle';
 
 const PER_PAGE = 21;
 const SCROLL_OFFSET = 300;
@@ -38,11 +39,13 @@ class GalleryApp {
       onRequestStart: () => this.galleryRenderer.showLoader(),
       onRequestFinish: () => this.galleryRenderer.hideLoader(),
     });
+
+    this.loadImagesThrottled = throttle( (beforeFn) => this.loadImages(beforeFn), 1000);
   }
 
   init() {
     window.addEventListener('scroll', () => this.handleScroll());
-
+ 
     // No persisted preference for showing image info (no localStorage)
 
     this.galleryRenderer.setSquareGalleryItems(
@@ -80,7 +83,7 @@ class GalleryApp {
     this.hasMore = false;
   }
 
-  async loadImages(beforeShowImagesCallback) {
+  async loadImages(beforeShowImagesFn) {
     if (
       this.isLoading ||
       !this.currentQuery ||
@@ -111,8 +114,12 @@ class GalleryApp {
         }
       }
 
-      beforeShowImagesCallback?.();
+      beforeShowImagesFn?.();
+      const lastImage = this.galleryEl.querySelector('li.gallery-item:last-child');
       this.galleryRenderer.createGallery(data.hits);
+      if (this.currentPage > 1) {
+        this.scrollToNewImages(lastImage);
+      }
       this.hasMore = this.currentPage * this.perPage < this.totalHits;
       this.currentPage += 1;
 
@@ -145,9 +152,7 @@ class GalleryApp {
     );
 
     if (pageHeight - scrollPosition <= this.scrollOffset) {
-      const lastImage = this.galleryEl?.lastElementChild;
-      await this.loadImages();
-      this.scrollToNewImages(lastImage);
+      await this.loadImagesThrottled();
     }
   }
 

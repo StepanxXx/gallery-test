@@ -42,10 +42,16 @@ class GalleryRenderer {
   createGalleryItem(fragment, hit) {
     const listItem = document.createElement('li');
     listItem.classList.add('gallery-item');
-
+    // Безпечне встановлення CSS-змінних з валідацією та одиницями px
+    const imageWidth = Number(hit.imageWidth);
+    const imageHeight = Number(hit.imageHeight);
+    if (Number.isFinite(imageWidth) && Number.isFinite(imageHeight)) {
+      listItem.style.setProperty('--image-width', `${imageWidth}`);
+      listItem.style.setProperty('--image-height', `${imageHeight}`);
+    }
     const link = document.createElement('a');
     link.classList.add('gallery-link');
-    link.href = this.getImageSource(hit);
+    link.href = this.getImageSource(hit);;
 
     const image = this.createGalleryImg(hit);
     link.appendChild(image);
@@ -72,10 +78,9 @@ class GalleryRenderer {
   createGalleryImg(hit) {
     const image = document.createElement('img');
     image.classList.add('gallery-image');
+    
     image.src = hit.largeImageURL || hit.webformatURL || hit.previewURL;
     image.alt = hit.tags;
-    image.width = 358;
-    image.height = 198;
     image.loading = 'lazy';
     image.decoding = 'async';
     return image;
