@@ -1,0 +1,32 @@
+/* 1. Prepare the parent container */
+[data-title] {
+  position: relative;
+  cursor: pointer;
+}
+
+/* 2. Hide and style the tooltip box by default */
+[data-title]::after {
+  content: attr(data-title); /* Grabs text from data-title */
+  position: absolute;
+  bottom: 125%; /* Places it above the text */
+  left: 50%;
+  transform: translateX(-50%);
+  
+  /* Visual Styling */
+  background-color: #333;
+  color: #fff;
+  padding: 8px 12px;
+  border-radius: 4px;
+  font-size: 14px;
+  white-space: nowrap;
+  
+  /* Visibility toggle rules */
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease-in-out;
+}
+
+/* 3. Show the tooltip on hover */
+[data-title]:hover::after {
+  opacity: 1;
+}

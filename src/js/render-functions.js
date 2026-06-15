@@ -9,10 +9,12 @@ class GalleryRenderer {
     galleryRootSelector = '.gallery',
     loaderSelector = '.loader-container',
     lightboxSelector = '.gallery a',
+    templateSelector = '#gallery-item-template',
   } = {}) {
     this.galleryContainer = document.querySelector(gallerySelector);
     this.galleryRoot = document.querySelector(galleryRootSelector);
     this.loader = document.querySelector(loaderSelector);
+    this.template = document.querySelector(templateSelector);
     this.lightbox = new SimpleLightbox(lightboxSelector, {
       captionsData: 'alt',
       captionDelay: 2000,
@@ -40,26 +42,28 @@ class GalleryRenderer {
   }
 
   createGalleryItem(fragment, hit) {
-    const listItem = document.createElement('li');
-    listItem.classList.add('gallery-item');
-    // Безпечне встановлення CSS-змінних з валідацією та одиницями px
+    const clone = this.template.content.cloneNode(true);
+    const listItem = clone.querySelector('li');
     const imageWidth = Number(hit.imageWidth);
     const imageHeight = Number(hit.imageHeight);
     if (Number.isFinite(imageWidth) && Number.isFinite(imageHeight)) {
       listItem.style.setProperty('--image-width', `${imageWidth}`);
       listItem.style.setProperty('--image-height', `${imageHeight}`);
     }
-    const link = document.createElement('a');
-    link.classList.add('gallery-link');
+    const link = clone.querySelector('a');
     link.href = this.getImageSource(hit);;
 
-    const image = this.createGalleryImg(hit);
+    const image =clone.querySelector('img');   
+    image.src = hit.largeImageURL || hit.webformatURL || hit.previewURL;
+    image.alt = hit.tags;
     link.appendChild(image);
 
-    const imgInfo = this.createGalleryImgInfo(hit);
-    link.appendChild(imgInfo);
+    const keys = ['likes', 'views', 'comments', 'downloads'];
+    keys.forEach((key) => {
+      const dd = clone.querySelector(`dd.gallery-img-info-${key}`);
+      dd.textContent = hit[key];
+    });
 
-    listItem.appendChild(link);
     fragment.appendChild(listItem);
 
     return fragment;
@@ -75,35 +79,6 @@ class GalleryRenderer {
     );
   }
 
-  createGalleryImg(hit) {
-    const image = document.createElement('img');
-    image.classList.add('gallery-image');
-    
-    image.src = hit.largeImageURL || hit.webformatURL || hit.previewURL;
-    image.alt = hit.tags;
-    image.loading = 'lazy';
-    image.decoding = 'async';
-    return image;
-  }
-
-  createGalleryImgInfo(hit) {
-    const keys = ['likes', 'views', 'comments', 'downloads'];
-
-    const imgInfo = keys.reduce((parent, key) => {
-      const dt = document.createElement('dt');
-      dt.textContent = key;
-
-      const dd = document.createElement('dd');
-      dd.textContent = hit[key];
-
-      parent.appendChild(dt);
-      parent.appendChild(dd);
-      return parent;
-    }, document.createElement('dl'));
-    imgInfo.classList.add('gallery-img-info');
-
-    return imgInfo;
-  }
 
   clearGallery() {
     this.galleryContainer.innerHTML = '';

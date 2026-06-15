@@ -6,5 +6,20 @@
     <symbol id="checkmark" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
       <polyline points="20 6 9 17 4 12" />
     </symbol>
+    <symbol id="heart" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+      <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+    </symbol>
+    <symbol id="eye" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+      <path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zm0 13c-3.03 0-5.5-2.47-5.5-5.5s2.47-5.5 5.5-5.5 5.5 2.47 5.5 5.5-2.47 5.5-5.5 5.5zm0-9c-1.93 0-3.5 1.57-3.5 3.5s1.57 3.5 3.5 3.5 3.5-1.57 3.5-3.5S13.93 8.5 12 8.5z"/>
+    </symbol>
+    
+    <symbol id="comment" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+      <path d="M4 4h16c1.1 0 2 .9 2 2v9c0 1.1-.9 2-2 2H9.15l-4.6 3.67c-.65.52-1.55.06-1.55-.78V6c0-1.1.9-2 2-2zm1 13.81L8.45 15H20V6H5v11.81z"/>
+      <path d="M8 11a1.25 1.25 0 1 0 0-2.5A1.25 1.25 0 0 0 8 11zm4 0a1.25 1.25 0 1 0 0-2.5A1.25 1.25 0 0 0 12 11zm4 0a1.25 1.25 0 1 0 0-2.5A1.25 1.25 0 0 0 16 11z"/>
+    </symbol>
+    <symbol id="download" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+      <path d="M11 4h2v8.17l3.59-3.58L18 10l-6 6-6-6 1.41-1.41L11 12.17V4z"/>
+      <path d="M5 18h14v2H5v-2z"/>
+    </symbol>
   </defs>
 </svg>
