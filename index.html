@@ -1,17 +1,19 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/gallery-test/favicon.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>GoIT advanced js homework 01</title>
-    <script type="module" crossorigin src="/gallery-test/index.js"></script>
-    <link rel="modulepreload" crossorigin href="/gallery-test/assets/vendor-DcHCnVjq.js">
-    <link rel="stylesheet" crossorigin href="/gallery-test/assets/vendor-DumFYO8Z.css">
-    <link rel="stylesheet" crossorigin href="/gallery-test/assets/index-Dr4unSyX.css">
-  </head>
-  <body>
-    <header class="header">
+
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/svg+xml" href="/gallery-test/favicon.svg" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GoIT advanced js homework 01</title>
+  <script type="module" crossorigin src="/gallery-test/index.js"></script>
+  <link rel="modulepreload" crossorigin href="/gallery-test/assets/vendor-DcHCnVjq.js">
+  <link rel="stylesheet" crossorigin href="/gallery-test/assets/vendor-DumFYO8Z.css">
+  <link rel="stylesheet" crossorigin href="/gallery-test/assets/index-mt_39WKA.css">
+</head>
+
+<body>
+  <header class="header">
   <div class="container">
     <nav class="nav">
       <ul class="nav-list">
@@ -24,55 +26,86 @@
 </header>
 
 
-    <main>
-      <div class="container">
-        <h1 class="main-title visually-hidden">Home</h1>
-        <form class="form" action="#" method="GET">
-          <label for="search-text" class="visually-hidden"
-            >Search images in site</label
-          >
-          <input
-            type="text"
-            name="search-text"
-            placeholder="Search images..."
-            required
-          />
-          <button type="submit">Search</button>
-        </form>
-        <div class="gallery-settings-container">
-          <label class="gallery-settings checkbox-label">
-            <input type="checkbox" name="gallery-square-items" />
-            <span class="checkbox-custom">
-              <!-- Вбудована SVG-галочка для кращої стилізації та контрасту -->
-              <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-                <use href="/gallery-test/assets/sprite-Dkoa6Cd4.svg#checkmark" />
-              </svg>
-            </span>
-            Use square gallery items
-          </label>
+  <main>
+    <div class="container">
+      <h1 class="main-title visually-hidden">Home</h1>
+      <form class="form" action="#" method="GET">
+        <label for="search-text" class="visually-hidden">Search images in site</label>
+        <input type="text" name="search-text" placeholder="Search images..." required />
+        <button type="submit">Search</button>
+      </form>
+      <div class="gallery-settings-container">
+        <label class="gallery-settings checkbox-label">
+          <input type="checkbox" name="gallery-square-items" />
+          <span class="checkbox-custom">
+            <!-- Вбудована SVG-галочка для кращої стилізації та контрасту -->
+            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+              <use href="/gallery-test/assets/sprite-WMsjJ4jd.svg#checkmark" />
+            </svg>
+          </span>
+          Use square gallery items
+        </label>
 
-          <label class="checkbox-label">
-            <input type="checkbox" name="gallery-show-info" />
-            <span class="checkbox-custom">
-              <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-                <use href="/gallery-test/assets/sprite-Dkoa6Cd4.svg#checkmark" />
-              </svg>
-            </span>
-            Show image info
-          </label>
-        </div>
-        <div class="search-results">
-          <ul class="gallery"></ul>
-          <div class="loader-container">
-            <span class="loader"></span>
-          </div>
+        <label class="checkbox-label">
+          <input type="checkbox" name="gallery-show-info" />
+          <span class="checkbox-custom">
+            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+              <use href="/gallery-test/assets/sprite-WMsjJ4jd.svg#checkmark" />
+            </svg>
+          </span>
+          Show image info
+        </label>
+      </div>
+      <div class="search-results">
+        <ul class="gallery"></ul>
+        <template id="gallery-item-template">
+          <li class="gallery-item">
+            <a class="gallery-link" href="">
+              <img class="gallery-image" src="" alt="" loading="lazy" decoding="async">
+              <dl class="gallery-img-info">
+                <dt data-title="Likes">
+                  <!-- likes -->
+                  <svg class="gallery-img-info-icon" width="16" height="16" aria-hidden="true">
+                    <use href="/gallery-test/assets/sprite-WMsjJ4jd.svg#heart"></use>
+                  </svg>
+                </dt>
+                <dd class="gallery-img-info-likes" data-title="Likes"></dd>
+                <dt data-title="Views">
+                  <!-- views -->
+                  <svg class="gallery-img-info-icon" width="16" height="16" aria-hidden="true">
+                    <use href="/gallery-test/assets/sprite-WMsjJ4jd.svg#eye"></use>
+                  </svg>
+                </dt>
+                <dd class="gallery-img-info-views" data-title="Views"></dd>
+                <dt data-title="Comments">
+                  <!-- comments -->
+                  <svg class="gallery-img-info-icon" width="16" height="16" aria-hidden="true">
+                    <use href="/gallery-test/assets/sprite-WMsjJ4jd.svg#comment"></use>
+                  </svg>
+                </dt>
+                <dd class="gallery-img-info-comments" data-title="Comments"></dd>
+                <dt data-title="Downloads">
+                  <!-- downloads -->
+                  <svg class="gallery-img-info-icon" width="16" height="16" aria-hidden="true">
+                    <use href="/gallery-test/assets/sprite-WMsjJ4jd.svg#download"></use>
+                  </svg>
+                </dt>
+                <dd class="gallery-img-info-downloads" data-title="Downloads"></dd>
+              </dl>
+            </a>
+          </li>
+        </template>
+        <div class="loader-container">
+          <span class="loader"></span>
         </div>
       </div>
-    </main>
-    <button class="scroll-to-top" type="button" aria-label="Back to top">
-      <svg class="scroll-to-top-icon" width="48" height="48" aria-hidden="true">
-        <use href="/gallery-test/assets/sprite-Dkoa6Cd4.svg#arrow-up"></use>
-      </svg>
-    </button>
-  </body>
+    </div>
+  </main>
+  <button class="scroll-to-top" type="button" aria-label="Back to top">
+    <svg class="scroll-to-top-icon" width="48" height="48" aria-hidden="true">
+      <use href="/gallery-test/assets/sprite-WMsjJ4jd.svg#arrow-up"></use>
+    </svg>
+  </button>
+</body>
+
 </html>
