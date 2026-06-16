@@ -50,18 +50,18 @@ class GalleryRenderer {
       listItem.style.setProperty('--image-width', `${imageWidth}`);
       listItem.style.setProperty('--image-height', `${imageHeight}`);
     }
+
     const link = clone.querySelector('a');
     link.href = this.getImageSource(hit);;
 
     const image =clone.querySelector('img');   
     image.src = hit.largeImageURL || hit.webformatURL || hit.previewURL;
     image.alt = hit.tags;
-    link.appendChild(image);
 
     const keys = ['likes', 'views', 'comments', 'downloads'];
     keys.forEach((key) => {
       const dd = clone.querySelector(`dd.gallery-img-info-${key}`);
-      dd.textContent = hit[key];
+      dd.textContent =hit[key].toLocaleString();
     });
 
     fragment.appendChild(listItem);
